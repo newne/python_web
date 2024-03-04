@@ -1,0 +1,16 @@
+version: "3"  # docker-compose版本
+services:
+  indoor_temperature: # docker-compose编排名称，一般同微服务名称，注意不要与其他服务重名
+    image: "registry.cn-hangzhou.aliyuncs.com/ncgnewne/indoor_temperature:1.8"  # docker镜像名及版本
+    hostname: indoor_temperature  # docker容器主机名
+    container_name: indoor_temperature  # docker容器名
+    volumes: # 挂载目录
+      - /home/algorithm/indoor_temperature/db:/root/bin/db  # 日志目录
+      - /home/algorithm/indoor_temperature/configs:/root/bin/configs  # 日志目录
+      - /home/algorithm/indoor_temperature/models:/root/bin/models  # 日志目录
+    ports: # 端口映射
+      - "9210:9210"
+    environment: # 配置环境变量
+      - TZ=Asia/Shanghai  # 设置时区
+    network_mode: bridge  # 网络模式：host、bridge、none等，一般bridge
+    restart: on-failure  # 自动启动：unless-stopped、always、on-failure、no，unless-stopped为非正常停止则自动启动
